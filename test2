@@ -1,0 +1,37 @@
+from flask import Flask, render_template, request, jsonify
+from snownlp import SnowNLP
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/analyze', methods=['POST'])
+def analyze():
+    text = request.json['text']
+    s = SnowNLP(text)
+    sentiment = s.sentiments
+    return jsonify({'sentiment': sentiment})
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+from flask import Flask, render_template, request, jsonify
+from snownlp import SnowNLP
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/analyze', methods=['POST'])
+def analyze():
+    text = request.json['text']
+    s = SnowNLP(text)
+    sentiment = s.sentiments
+    return jsonify({'sentiment': sentiment})
+
+if __name__ == '__main__':
+    app.run(debug=True)
