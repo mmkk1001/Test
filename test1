@@ -1,0 +1,53 @@
+# 引入必要的库
+import scrapy
+from textblob import TextBlob
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# 假设我们有一个Scrapy爬虫，用于抓取Twitter数据
+class TwitterSpider(scrapy.Spider):
+    name = 'twitter'
+    start_urls = ['https://twitter.com/']
+
+    def parse(self, response):
+        # 这里我们只是简单地模拟抓取数据的过程
+        # 实际应用中，你需要解析页面并提取推文内容
+        for i in range(10):  # 假设我们抓取了10条推文
+            yield {
+                'text': f"推文内容 {i}",
+                'author': f"用户 {i}",
+                'date': f"日期 {i}"
+            }
+
+# 情感分析函数
+def analyze_sentiment(texts):
+    sentiments = []
+    for text in texts:
+        analysis = TextBlob(text)
+        sentiments.append(analysis.sentiment.polarity)  # 情感极性值
+    return sentiments
+
+# 数据可视化
+def visualize_sentiments(sentiments):
+    plt.figure(figsize=(10, 5))
+    plt.title('情感分析结果')
+    plt.xlabel('推文索引')
+    plt.ylabel('情感极性值')
+    plt.plot(sentiments, marker='o')
+    plt.show()
+
+# 主函数
+def main():
+    # 假设我们已经有了一个包含推文的DataFrame
+    df = pd.DataFrame({
+        'text': ['推文1', '推文2', '推文3', '推文4', '推文5', '推文6', '推文7', '推文8', '推文9', '推文10']
+    })
+    
+    # 对推文进行情感分析
+    sentiments = analyze_sentiment(df['text'])
+    
+    # 可视化结果
+    visualize_sentiments(sentiments)
+
+if __name__ == "__main__":
+    main()
